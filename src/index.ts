@@ -1,36 +1,38 @@
 let table: HTMLTableElement
-let playerinfo: HTMLInputElement
-let wins: HTMLInputElement
+let inputplayer: HTMLInputElement
+let inputwinnum: HTMLInputElement
 
 function showTable(html: string) {
     table.innerHTML = html
 }
 
 function Action() {
-    const name = playerinfo.value
-    const winsnum = wins.valueAsNumber
-    info.add({playername: name, wins: winsnum})
-
+    const player_name = inputplayer.value
+    const wins_num = inputwinnum.valueAsNumber
+    player.add({name: player_name, wins: wins_num})
+    player.save()
+    player.load()
+    showTable(player.getHtml())
 }
 
 function Initial() {
-    info.data = []
-    info.save()
-    info.load()
-    playerinfo.value = ''
-    wins.value = ''
-    showTable(info.getHtml())
+    player.data = []
+    player.save()
+    player.load()
+    inputplayer.value = ''
+    inputwinnum.value = ''
+    showTable(player.getHtml())
 }
 
-type PlayerInfo = {
-    playername: string,
+type Player = {
+    name: string,
     wins: number,
 }
 
-class Data {
-    data: PlayerInfo[] = []
+class PlayerData {
+    data: Player[] = []
 
-    add(add_data: PlayerInfo): void {
+    add(add_data: Player): void {
         this.data.unshift(add_data)
     }
 
@@ -46,21 +48,21 @@ class Data {
     getHtml(): string {
         let html = '<thead><th>投手名</th><th>勝利数</th></thead><tbody>'
         for(let item of this.data){
-            html += '<tr><td>' + item.playername + '</td><td>'
-                + item.wins.toLocaleString + '</td></tr>'
+            html += '<tr><td>' + item.name + '</td><td>'
+                + item.wins.toLocaleString() + '</td></tr>'
         }
         return html + '</tbody>'
     }
 }
 
-const info = new Data()
+const player = new PlayerData()
 
 window.addEventListener('load', ()=>{
     table = document.querySelector('#table')
-    playerinfo = document.querySelector('#playerinfo')
-    wins = document.querySelector('#wins')
+    inputplayer = document.querySelector('#player')
+    inputwinnum = document.querySelector('#wins')
     document.querySelector('#btn').addEventListener('click', Action)
     document.querySelector('#initial').addEventListener('click', Initial)
-    info.load()
-    showTable(info.getHtml())
+    player.load()
+    showTable(player.getHtml())
 })

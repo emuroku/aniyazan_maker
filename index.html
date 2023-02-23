@@ -27,12 +27,12 @@
                 </div>
                 <p>投手名と勝利数を入力してください　※最大9人まで</p>
                 <div class="input_main_info col-9">
-                    <div class="col-9">投手名<input type="text" class="form-control" id="playername" /></div>
-                    <div class="col-3">勝利数<input type="number" class="form-control" name="month" required min="1"
+                    <div class="col-9">投手名<input type="text" class="form-control" id="player" /></div>
+                    <div class="col-3">勝利数<input type="number" class="form-control" name="wins" required min="1"
                             max="99" id="wins"></div>
                 </div>
                 <div class="add_btn">
-                    <button type="button" class="btn btn-primary" id="add">
+                    <button type="button" class="btn btn-primary" id="btn">
                         追加！
                     </button>
                 </div>
@@ -40,10 +40,8 @@
             <div>
                 <table class="table" id="table"></table>
             </div>
-
-
             <div class="text-center">
-                <button class="btn btn-danger mt-4" id="clear">やりなおす</button>
+                <button class="btn btn-danger mt-4" id="initial">やりなおす</button>
             </div>
 
         </div>
