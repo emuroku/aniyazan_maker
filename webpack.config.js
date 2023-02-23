@@ -4,6 +4,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+// ビルド時にsrc内のリソースをdistへコピーするためのプラグイン
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -30,6 +32,12 @@ const config = {
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/img', to: 'resource/img' },
+        { from: 'src/css', to: 'resource/css' }
+      ]
+    }),
   ],
   module: {
     rules: [
