@@ -2,6 +2,18 @@ let table: HTMLTableElement
 let inputplayer: HTMLInputElement
 let inputwinnum: HTMLInputElement
 
+// 画像描画
+let bgImg = new Image()
+bgImg.src = 'resource/img/aniyazan_maker_template.png'
+
+// canvasとcontext
+const canvas = <HTMLCanvasElement> document.querySelector('#cv')
+const ctx = canvas.getContext('2d')
+
+bgImg.onload = () => {
+    ctx.drawImage(bgImg, 0, 0)
+}
+
 function showTable(html: string) {
     table.innerHTML = html
 }
@@ -53,6 +65,8 @@ class PlayerData {
         }
         return html + '</tbody>'
     }
+
+
 }
 
 const player = new PlayerData()
