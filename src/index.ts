@@ -2,6 +2,15 @@ let table: HTMLTableElement
 let inputplayer: HTMLInputElement
 let inputwinnum: HTMLInputElement
 
+// 描画用位置指定パラメータ
+const start_x: number = 260
+const start_y: number = 300
+const item_width: number = 420
+const item_height: number = 150
+const name_max_width: number = 150
+const win_max_width: number = 100
+
+
 // 画像描画
 let bgImg = new Image()
 bgImg.src = 'resource/img/aniyazan_maker_template.png'
@@ -41,33 +50,27 @@ function Initial() {
     showTable(player.getHtml())
 }
 
-// 投手名の描画処理
-function DrawName(text: string, order: number) {
+// 描画処理
+function Draw(player_name: string, win_num: string, order: number) {
+
+    // 選手名の描画
     ctx.font = "bold 65px 'M PLUS 1'"
     ctx.textAlign = "center"
     ctx.fillStyle = "#666666";
     ctx.textBaseline = "bottom";
-    // ctx.strokeText(text, 220+(order%3)*360, 300+(Math.floor(order/3) *150), 350);
-    ctx.fillText(text, 220+(order%3)*420, 300+(Math.floor(order/3) *150), 250);
-} 
+    ctx.strokeText(player_name, start_x+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), name_max_width);
+    ctx.fillText(player_name, start_x+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), name_max_width);
 
-// 勝利数の描画処理
-function DrawWinNum(text: string, order: number) {
-    ctx.font = "bold 75px 'M PLUS 1'"
-    ctx.textAlign = "center"
+    // 勝利数の描画
+    ctx.font = "bold 80px 'M PLUS 1'"
     ctx.fillStyle = "#ff0000";
-    ctx.textBaseline = "bottom";
-    // ctx.strokeText(text, 220+(order%3)*360, 300+(Math.floor(order/3) *150), 350);
-    ctx.fillText(text, 380+(order%3)*420, 300+(Math.floor(order/3) *150), 90);
+    ctx.strokeText(win_num, start_x+name_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), win_max_width);
+    ctx.fillText(win_num, start_x+name_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), win_max_width);
     
     ctx.font = "bold 50px 'M PLUS 1'"
-    ctx.textAlign = "center"
     ctx.fillStyle = "#666666";
-    ctx.textBaseline = "bottom";
-    // ctx.strokeText(text, 220+(order%3)*360, 300+(Math.floor(order/3) *150), 350);
-    ctx.fillText('勝', 470+(order%3)*420, 300+(Math.floor(order/3) *150), 90);
+    ctx.fillText('勝', start_x+name_max_width+win_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), 100);
 } 
-
 
 
 function Create() {
@@ -107,8 +110,7 @@ class PlayerData {
 
     createImg(): void{
         for(let i=0; i<this.data.length; i++){
-            DrawName(this.data[i].name, i)
-            DrawWinNum(this.data[i].wins.toLocaleString(), i)
+            Draw(this.data[i].name, this.data[i].wins.toLocaleString(), i)
         }
     }
 
