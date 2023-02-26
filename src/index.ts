@@ -1,13 +1,14 @@
 let table: HTMLTableElement
 let inputplayer: HTMLInputElement
 let inputwinnum: HTMLInputElement
+let inputusername: HTMLInputElement
 
 // 描画用位置指定パラメータ
 const start_x: number = 260
 const start_y: number = 300
 const item_width: number = 420
 const item_height: number = 150
-const name_max_width: number = 150
+const name_max_width: number = 180
 const win_max_width: number = 100
 
 
@@ -38,7 +39,7 @@ function Action() {
     player.save()
     player.load()
     showTable(player.getHtml())
-}
+    }
 
 function Initial() {
     player.data = []
@@ -46,12 +47,16 @@ function Initial() {
     player.load()
     inputplayer.value = ''
     inputwinnum.value = ''
-    ctx.clearRect
+    inputusername.value = ''
     showTable(player.getHtml())
+    ctx.clearRect
+    ctx.drawImage(bgImg, 0, 0)
 }
 
 // 描画処理
 function Draw(player_name: string, win_num: string, order: number) {
+
+    const user_name = inputusername.value
 
     // 選手名の描画
     ctx.font = "bold 65px 'M PLUS 1'"
@@ -70,10 +75,27 @@ function Draw(player_name: string, win_num: string, order: number) {
     ctx.font = "bold 50px 'M PLUS 1'"
     ctx.fillStyle = "#666666";
     ctx.fillText('勝', start_x+name_max_width+win_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), 100);
+    
+    // ユーザー名の描画
+    ctx.font = "bold 40px 'M PLUS 1'"
+    ctx.fillStyle = "#000000";
+    ctx.fillText(user_name, 1030, 95, 300);
+    ctx.fillText('の安仁屋算が公開', 1375, 95, 800);
+
 } 
+
+function DrawTotal(total: string){
+        // 合計勝利数の描画
+        ctx.font = "bold 160px 'M PLUS 1'"
+        ctx.textAlign = "center"
+        ctx.fillStyle = "#ff0000";
+        ctx.fillText(total, 900, 830, 300);
+        ctx.fillText(total, 900, 830, 300);
+}
 
 
 function Create() {
+
     player.createImg()
     showCreatedImg()
 }
@@ -108,10 +130,20 @@ class PlayerData {
         return html + '</tbody>'
     }
 
+    getTotal(): string {
+        let total_num = 0
+        for (let item of this.data){
+            total_num += item.wins
+        }
+        return total_num.toLocaleString()
+    }
+
     createImg(): void{
+        this.data.reverse()
         for(let i=0; i<this.data.length; i++){
             Draw(this.data[i].name, this.data[i].wins.toLocaleString(), i)
         }
+        DrawTotal(this.getTotal())
     }
 
 
@@ -119,10 +151,12 @@ class PlayerData {
 
 const player = new PlayerData()
 
+
 window.addEventListener('load', ()=>{
     table = document.querySelector('#table')
     inputplayer = document.querySelector('#player')
     inputwinnum = document.querySelector('#wins')
+    inputusername = document.querySelector('#username')
     document.querySelector('#btn').addEventListener('click', Action)
     document.querySelector('#initial').addEventListener('click', Initial)
     document.querySelector('#create').addEventListener('click', Create)
