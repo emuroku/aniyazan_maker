@@ -18,6 +18,10 @@ function showTable(html: string) {
     table.innerHTML = html
 }
 
+function showCreatedImg() {
+
+}
+
 function Action() {
     const player_name = inputplayer.value
     const wins_num = inputwinnum.valueAsNumber
@@ -33,7 +37,42 @@ function Initial() {
     player.load()
     inputplayer.value = ''
     inputwinnum.value = ''
+    ctx.clearRect
     showTable(player.getHtml())
+}
+
+// 投手名の描画処理
+function DrawName(text: string, order: number) {
+    ctx.font = "bold 65px 'M PLUS 1'"
+    ctx.textAlign = "center"
+    ctx.fillStyle = "#666666";
+    ctx.textBaseline = "bottom";
+    // ctx.strokeText(text, 220+(order%3)*360, 300+(Math.floor(order/3) *150), 350);
+    ctx.fillText(text, 220+(order%3)*420, 300+(Math.floor(order/3) *150), 250);
+} 
+
+// 勝利数の描画処理
+function DrawWinNum(text: string, order: number) {
+    ctx.font = "bold 75px 'M PLUS 1'"
+    ctx.textAlign = "center"
+    ctx.fillStyle = "#ff0000";
+    ctx.textBaseline = "bottom";
+    // ctx.strokeText(text, 220+(order%3)*360, 300+(Math.floor(order/3) *150), 350);
+    ctx.fillText(text, 380+(order%3)*420, 300+(Math.floor(order/3) *150), 90);
+    
+    ctx.font = "bold 50px 'M PLUS 1'"
+    ctx.textAlign = "center"
+    ctx.fillStyle = "#666666";
+    ctx.textBaseline = "bottom";
+    // ctx.strokeText(text, 220+(order%3)*360, 300+(Math.floor(order/3) *150), 350);
+    ctx.fillText('勝', 470+(order%3)*420, 300+(Math.floor(order/3) *150), 90);
+} 
+
+
+
+function Create() {
+    player.createImg()
+    showCreatedImg()
 }
 
 type Player = {
@@ -66,6 +105,13 @@ class PlayerData {
         return html + '</tbody>'
     }
 
+    createImg(): void{
+        for(let i=0; i<this.data.length; i++){
+            DrawName(this.data[i].name, i)
+            DrawWinNum(this.data[i].wins.toLocaleString(), i)
+        }
+    }
+
 
 }
 
@@ -77,6 +123,7 @@ window.addEventListener('load', ()=>{
     inputwinnum = document.querySelector('#wins')
     document.querySelector('#btn').addEventListener('click', Action)
     document.querySelector('#initial').addEventListener('click', Initial)
+    document.querySelector('#create').addEventListener('click', Create)
     player.load()
     showTable(player.getHtml())
 })

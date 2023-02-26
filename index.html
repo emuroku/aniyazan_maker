@@ -8,6 +8,11 @@
         crossorigin="anonymous">
     <script src="main.js"></script>
     <link rel="stylesheet" href="resource/css/top.css">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -40,9 +45,15 @@
             <div>
                 <table class="table" id="table"></table>
             </div>
-            <div class="text-center">
-                <button class="btn btn-danger mt-4" id="initial">やりなおす</button>
+            <div class="user_operation">
+                <div class="btn_init">
+                    <button class="btn btn-danger mt-4" id="initial">やりなおす</button>
+                </div>
+                <div class="btn_create">
+                    <button class="btn btn-primary mt-6" id="create">画像を作成する！</button>
+                </div>
             </div>
+
             <div class="output_img">
                 <p>▼ここに作成した画像が表示されます▼</p>
                 <!-- 画像描画部分のCanvas -->
