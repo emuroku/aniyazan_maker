@@ -127,7 +127,11 @@ class PlayerData {
             html += '<tr><td>' + item.name + '</td><td>'
                 + item.wins.toLocaleString() + '</td></tr>'
         }
-        return html + '</tbody>'
+        let total = this.getTotal()
+        html += '</tbody>' + '<tr><td>' + '合計' + '</td><td>'
+            + total + '</td></tr>'
+
+        return html
     }
 
     getTotal(): string {
