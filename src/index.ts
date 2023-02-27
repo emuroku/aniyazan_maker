@@ -4,11 +4,11 @@ let inputwinnum: HTMLInputElement
 let inputusername: HTMLInputElement
 
 // 描画用位置指定パラメータ
-const start_x: number = 260
+const start_x: number = 240
 const start_y: number = 300
 const item_width: number = 420
 const item_height: number = 150
-const name_max_width: number = 180
+const name_max_width: number = 160
 const win_max_width: number = 100
 
 
@@ -82,6 +82,14 @@ function Draw(player_name: string, win_num: string, order: number) {
     ctx.fillText(user_name, 1030, 95, 300);
     ctx.fillText('の安仁屋算が公開', 1375, 95, 800);
 
+    // 下線の描画
+    ctx.beginPath();
+    ctx.moveTo(start_x+(order%3)*item_width-70, 
+                start_y+(Math.floor(order/3) *item_height+10));
+    ctx.lineTo(start_x+(order%3)*item_width+name_max_width+win_max_width+20, 
+                start_y+(Math.floor(order/3) *item_height+10));
+                ctx.stroke();  
+
 } 
 
 function DrawTotal(total: string){
@@ -130,7 +138,7 @@ class PlayerData {
         let total = this.getTotal()
         html += '</tbody>' + '<tr><td>' + '合計' + '</td><td>'
             + total + '</td></tr>'
-
+            
         return html
     }
 
