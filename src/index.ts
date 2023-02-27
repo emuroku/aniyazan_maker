@@ -1,7 +1,11 @@
+import { error } from "console"
+
 let table: HTMLTableElement
 let inputplayer: HTMLInputElement
 let inputwinnum: HTMLInputElement
 let inputusername: HTMLInputElement
+
+const max_item = 9 // 登録最大人数
 
 // 描画用位置指定パラメータ
 const start_x: number = 240
@@ -17,7 +21,7 @@ let bgImg = new Image()
 bgImg.src = 'resource/img/aniyazan_maker_template.png'
 
 // canvasとcontext
-const canvas = <HTMLCanvasElement> document.querySelector('#cv')
+const canvas = <HTMLCanvasElement>document.querySelector('#cv')
 const ctx = canvas.getContext('2d')
 
 bgImg.onload = () => {
@@ -35,11 +39,16 @@ function showCreatedImg() {
 function Action() {
     const player_name = inputplayer.value
     const wins_num = inputwinnum.valueAsNumber
-    player.add({name: player_name, wins: wins_num})
-    player.save()
-    player.load()
-    showTable(player.getHtml())
+    try {
+        player.add({ name: player_name, wins: wins_num })
+        player.save()
+        player.load()
+        showTable(player.getHtml())
+    } catch (e) {
+        let errorMessage = document.getElementById('error_msg')
+        errorMessage.textContent = e.message
     }
+}
 
 function Initial() {
     player.data = []
@@ -47,11 +56,12 @@ function Initial() {
     player.load()
     inputplayer.value = ''
     inputwinnum.value = ''
-    inputusername.value = ''
+    inputusername.value = '名無しさん'
     showTable(player.getHtml())
     ctx.clearRect
     ctx.drawImage(bgImg, 0, 0)
 }
+
 
 // 描画処理
 function Draw(player_name: string, win_num: string, order: number) {
@@ -63,19 +73,19 @@ function Draw(player_name: string, win_num: string, order: number) {
     ctx.textAlign = "center"
     ctx.fillStyle = "#666666";
     ctx.textBaseline = "bottom";
-    ctx.strokeText(player_name, start_x+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), name_max_width);
-    ctx.fillText(player_name, start_x+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), name_max_width);
+    ctx.strokeText(player_name, start_x + (order % 3) * item_width, start_y + (Math.floor(order / 3) * item_height), name_max_width);
+    ctx.fillText(player_name, start_x + (order % 3) * item_width, start_y + (Math.floor(order / 3) * item_height), name_max_width);
 
     // 勝利数の描画
-    ctx.font = "bold 80px 'M PLUS 1'"
+    ctx.font = "bold 80px 'M PLUS 1', sans-serif, #ff0000"
     ctx.fillStyle = "#ff0000";
-    ctx.strokeText(win_num, start_x+name_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), win_max_width);
-    ctx.fillText(win_num, start_x+name_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), win_max_width);
-    
+    ctx.strokeText(win_num, start_x + name_max_width + (order % 3) * item_width, start_y + (Math.floor(order / 3) * item_height), win_max_width);
+    ctx.fillText(win_num, start_x + name_max_width + (order % 3) * item_width, start_y + (Math.floor(order / 3) * item_height), win_max_width);
+
     ctx.font = "bold 50px 'M PLUS 1'"
     ctx.fillStyle = "#666666";
-    ctx.fillText('勝', start_x+name_max_width+win_max_width+(order%3)*item_width, start_y+(Math.floor(order/3) *item_height), 100);
-    
+    ctx.fillText('勝', start_x + name_max_width + win_max_width + (order % 3) * item_width, start_y + (Math.floor(order / 3) * item_height), 100);
+
     // ユーザー名の描画
     ctx.font = "bold 40px 'M PLUS 1'"
     ctx.fillStyle = "#000000";
@@ -84,21 +94,21 @@ function Draw(player_name: string, win_num: string, order: number) {
 
     // 下線の描画
     ctx.beginPath();
-    ctx.moveTo(start_x+(order%3)*item_width-70, 
-                start_y+(Math.floor(order/3) *item_height+10));
-    ctx.lineTo(start_x+(order%3)*item_width+name_max_width+win_max_width+20, 
-                start_y+(Math.floor(order/3) *item_height+10));
-                ctx.stroke();  
+    ctx.moveTo(start_x + (order % 3) * item_width - 70,
+        start_y + (Math.floor(order / 3) * item_height + 10));
+    ctx.lineTo(start_x + (order % 3) * item_width + name_max_width + win_max_width + 20,
+        start_y + (Math.floor(order / 3) * item_height + 10));
+    ctx.stroke();
 
-} 
+}
 
-function DrawTotal(total: string){
-        // 合計勝利数の描画
-        ctx.font = "bold 160px 'M PLUS 1'"
-        ctx.textAlign = "center"
-        ctx.fillStyle = "#ff0000";
-        ctx.fillText(total, 900, 830, 300);
-        ctx.fillText(total, 900, 830, 300);
+function DrawTotal(total: string) {
+    // 合計勝利数の描画
+    ctx.font = "bold 160px 'M PLUS 1'"
+    ctx.textAlign = "center"
+    ctx.fillStyle = "#ff0000";
+    ctx.fillText(total, 900, 830, 300);
+    ctx.fillText(total, 900, 830, 300);
 }
 
 
@@ -117,54 +127,57 @@ class PlayerData {
     data: Player[] = []
 
     add(add_data: Player): void {
-        this.data.unshift(add_data)
+        if (this.data.length < max_item) {
+            this.data.push(add_data)
+        } else {
+            throw new Error('登録できるのは9人までです')
+        }
+
     }
 
     save(): void {
         localStorage.setItem('player_data', JSON.stringify(this.data))
     }
 
-    load(): void{
+    load(): void {
         const readed = JSON.parse(localStorage.getItem('player_data'))
         this.data = readed ? readed : []
     }
 
     getHtml(): string {
         let html = '<thead><th>投手名</th><th>勝利数</th></thead><tbody>'
-        for(let item of this.data){
+        for (let item of this.data) {
             html += '<tr><td>' + item.name + '</td><td>'
                 + item.wins.toLocaleString() + '</td></tr>'
         }
         let total = this.getTotal()
         html += '</tbody>' + '<tr><td>' + '合計' + '</td><td>'
             + total + '</td></tr>'
-            
+
         return html
     }
 
     getTotal(): string {
         let total_num = 0
-        for (let item of this.data){
+        for (let item of this.data) {
             total_num += item.wins
         }
         return total_num.toLocaleString()
     }
 
-    createImg(): void{
-        this.data.reverse()
-        for(let i=0; i<this.data.length; i++){
+    createImg(): void {
+        for (let i = 0; i < this.data.length; i++) {
             Draw(this.data[i].name, this.data[i].wins.toLocaleString(), i)
         }
         DrawTotal(this.getTotal())
     }
-
 
 }
 
 const player = new PlayerData()
 
 
-window.addEventListener('load', ()=>{
+window.addEventListener('load', () => {
     table = document.querySelector('#table')
     inputplayer = document.querySelector('#player')
     inputwinnum = document.querySelector('#wins')
