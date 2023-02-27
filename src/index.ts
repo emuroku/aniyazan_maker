@@ -118,6 +118,26 @@ function Create() {
     showCreatedImg()
 }
 
+// Canvasを合成
+let createImage = function () {
+    var image = new Image();
+    image.src = canvas.toDataURL();
+    return image;
+}
+
+function downloadCanvas() {
+    // canvasのstyleにborderを追加
+    canvas.style.border = "2px solid #222222";
+
+    // URL取得用のa要素を生成
+    let link = document.createElement("a");
+
+    link.href = canvas.toDataURL("image/png");
+
+    link.download = "image.png";
+    link.click();
+}
+
 type Player = {
     name: string,
     wins: number,
@@ -185,6 +205,7 @@ window.addEventListener('load', () => {
     document.querySelector('#btn').addEventListener('click', Action)
     document.querySelector('#initial').addEventListener('click', Initial)
     document.querySelector('#create').addEventListener('click', Create)
+    document.getElementById('btn_dl').addEventListener('click', downloadCanvas)
     player.load()
     showTable(player.getHtml())
 })
