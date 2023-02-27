@@ -37,11 +37,22 @@
     
 }
 
+.error_message {
+    text-align: center;
+    color: red;
+    margin-bottom: 20px;
+}
+
 .user_operation{
     margin: 10px;
 }
 
 .btn_init {
+    text-align: center;
+    margin: 10px;
+}
+
+.btn_download {
     text-align: center;
     margin: 10px;
 }
