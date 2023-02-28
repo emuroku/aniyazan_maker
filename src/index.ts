@@ -62,13 +62,12 @@ function Initial() {
 // 描画処理
 bgImg.onload = function(){
     ctx.drawImage(bgImg, 0, 0)
-    createImage()
+    player.createImg()
 }
 
 function Draw(player_name: string, win_num: string, order: number) {
 
     const user_name = inputusername.value
-    ctx.drawImage(bgImg, 0, 0)
 
     // 選手名の描画
     ctx.font = "bold 65px 'M PLUS 1'"
@@ -187,6 +186,7 @@ class PlayerData {
     }
 
     createImg(): void {
+        ctx.drawImage(bgImg, 0, 0)
         for (let i = 0; i < this.data.length; i++) {
             Draw(this.data[i].name, this.data[i].wins.toLocaleString(), i)
         }
