@@ -24,10 +24,6 @@ bgImg.src = 'resource/img/aniyazan_maker_template.png'
 const canvas = <HTMLCanvasElement>document.querySelector('#cv')
 const ctx = canvas.getContext('2d')
 
-bgImg.onload = () => {
-    ctx.drawImage(bgImg, 0, 0)
-}
-
 function showTable(html: string) {
     table.innerHTML = html
 }
@@ -64,9 +60,15 @@ function Initial() {
 
 
 // 描画処理
+bgImg.onload = function(){
+    ctx.drawImage(bgImg, 0, 0)
+    createImage()
+}
+
 function Draw(player_name: string, win_num: string, order: number) {
 
     const user_name = inputusername.value
+    ctx.drawImage(bgImg, 0, 0)
 
     // 選手名の描画
     ctx.font = "bold 65px 'M PLUS 1'"
@@ -115,7 +117,6 @@ function DrawTotal(total: string) {
 function Create() {
 
     player.createImg()
-    showCreatedImg()
 }
 
 // Canvasを合成
