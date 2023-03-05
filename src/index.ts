@@ -59,11 +59,11 @@ function Initial() {
 }
 
 
-// // 描画処理
-// bgImg.onload = function(){
-//     ctx.drawImage(bgImg, 0, 0)
-//     player.createImg()
-// }
+// 描画処理
+bgImg.onload = function(){
+    ctx.drawImage(bgImg, 0, 0)
+    player.createImg()
+}
 
 function Draw(player_name: string, win_num: string, order: number) {
 
