@@ -149,7 +149,8 @@ class PlayerData {
     data: Player[] = []
 
     checkinput(add_data: Player): void {
-        if(add_data.name == '' || add_data.wins == null){
+        if(add_data.name == '' || isNaN(add_data.wins)){
+            console.log(add_data)
             throw new Error('正しく入力してください')
         }
     }
