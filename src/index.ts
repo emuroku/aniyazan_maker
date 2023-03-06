@@ -62,7 +62,7 @@ function Initial() {
 
 
 // 描画処理
-bgImg.onload = function(){
+bgImg.onload = function () {
     ctx.drawImage(bgImg, 0, 0)
     player.createImg()
 }
@@ -150,6 +150,7 @@ class PlayerData {
     add(add_data: Player): void {
         if (this.data.length < max_item) {
             this.data.push(add_data)
+            errorMessage.textContent = ''
         } else {
             throw new Error('登録できるのは9人までです')
         }
@@ -174,7 +175,6 @@ class PlayerData {
         let total = this.getTotal()
         html += '</tbody>' + '<tr><td>' + '合計' + '</td><td>'
             + total + '</td></tr>'
-
         return html
     }
 
@@ -204,6 +204,7 @@ window.addEventListener('load', () => {
     inputplayer = document.querySelector('#player')
     inputwinnum = document.querySelector('#wins')
     inputusername = document.querySelector('#username')
+    showTable(player.getHtml())
     document.querySelector('#btn').addEventListener('click', Action)
     document.querySelector('#initial').addEventListener('click', Initial)
     document.querySelector('#create').addEventListener('click', Create)
