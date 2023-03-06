@@ -13,6 +13,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 
 <body>
@@ -24,6 +26,10 @@
     <div class="container">
         <div class="col-12">
             <p class="h5">安仁屋算の速報っぽい画像が作れます。</p>
+            <div class="sample">
+                <p>▼こんな画像ができます▼</p>
+                <img class="sample_img" src="resource/img/sample.png">
+            </div>
             <div class="input_field">
                 <div class="input_username">
                     <div class="form-group mt-3 col-4">
@@ -66,6 +72,22 @@
                 <button class="btn btn-secondary mt-8" id="btn_dl">画像をダウンロード！
                     <a id="download" download="sample.png"></a>
                 </button>
+            </div>
+            <!-- Twitter投稿誘導 -->
+            <div class="mx-auto col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5><a id="result"></a></h5>
+                        <p>作成した画像をぜひTwitterで紹介してください！<br>
+                            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"
+                                    style="color: #55acee;"></i>つぶやく</a>
+                        </p>
+
+                        <small>↓こちらを付けてシェアしてくださると嬉しいです</small>
+                        <textarea class="form-control" area-label="With textarea"
+                            readonly> #安仁屋算速報メーカー https://emuroku.github.io/aniyazan_maker/</textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
