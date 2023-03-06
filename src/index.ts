@@ -38,6 +38,7 @@ function Action() {
     const player_name = inputplayer.value
     const wins_num = inputwinnum.valueAsNumber
     try {
+        player.checkinput({ name: player_name, wins: wins_num })
         player.add({ name: player_name, wins: wins_num })
         player.save()
         player.load()
@@ -147,6 +148,12 @@ type Player = {
 class PlayerData {
     data: Player[] = []
 
+    checkinput(add_data: Player): void {
+        if(add_data.name == '' || add_data.wins == null){
+            throw new Error('正しく入力してください')
+        }
+    }
+
     add(add_data: Player): void {
         if (this.data.length < max_item) {
             this.data.push(add_data)
@@ -210,5 +217,6 @@ window.addEventListener('load', () => {
     document.querySelector('#create').addEventListener('click', Create)
     document.getElementById('btn_dl').addEventListener('click', downloadCanvas)
     player.load()
+
     showTable(player.getHtml())
 })
