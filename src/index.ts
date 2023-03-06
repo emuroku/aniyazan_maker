@@ -15,6 +15,8 @@ const item_height: number = 150
 const name_max_width: number = 160
 const win_max_width: number = 100
 
+// エラーメッセージ
+let errorMessage = document.getElementById('error_msg')
 
 // 画像描画
 let bgImg = new Image()
@@ -41,7 +43,6 @@ function Action() {
         player.load()
         showTable(player.getHtml())
     } catch (e) {
-        let errorMessage = document.getElementById('error_msg')
         errorMessage.textContent = e.message
     }
 }
@@ -53,6 +54,7 @@ function Initial() {
     inputplayer.value = ''
     inputwinnum.value = ''
     inputusername.value = '名無しさん'
+    errorMessage.textContent = ''
     showTable(player.getHtml())
     ctx.clearRect
     ctx.drawImage(bgImg, 0, 0)
@@ -114,7 +116,6 @@ function DrawTotal(total: string) {
 
 
 function Create() {
-
     player.createImg()
 }
 
