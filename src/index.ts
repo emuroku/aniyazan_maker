@@ -38,6 +38,7 @@ function Action() {
     const player_name = inputplayer.value
     const wins_num = inputwinnum.valueAsNumber
     try {
+        player.checkinput({ name: player_name, wins: wins_num })
         player.add({ name: player_name, wins: wins_num })
         player.save()
         player.load()
@@ -62,7 +63,7 @@ function Initial() {
 
 
 // 描画処理
-bgImg.onload = function(){
+bgImg.onload = function () {
     ctx.drawImage(bgImg, 0, 0)
     player.createImg()
 }
@@ -147,9 +148,17 @@ type Player = {
 class PlayerData {
     data: Player[] = []
 
+    checkinput(add_data: Player): void {
+        if(add_data.name == '' || isNaN(add_data.wins)){
+            console.log(add_data)
+            throw new Error('正しく入力してください')
+        }
+    }
+
     add(add_data: Player): void {
         if (this.data.length < max_item) {
             this.data.push(add_data)
+            errorMessage.textContent = ''
         } else {
             throw new Error('登録できるのは9人までです')
         }
@@ -174,7 +183,6 @@ class PlayerData {
         let total = this.getTotal()
         html += '</tbody>' + '<tr><td>' + '合計' + '</td><td>'
             + total + '</td></tr>'
-
         return html
     }
 
@@ -204,10 +212,12 @@ window.addEventListener('load', () => {
     inputplayer = document.querySelector('#player')
     inputwinnum = document.querySelector('#wins')
     inputusername = document.querySelector('#username')
+    showTable(player.getHtml())
     document.querySelector('#btn').addEventListener('click', Action)
     document.querySelector('#initial').addEventListener('click', Initial)
     document.querySelector('#create').addEventListener('click', Create)
     document.getElementById('btn_dl').addEventListener('click', downloadCanvas)
     player.load()
+
     showTable(player.getHtml())
 })
