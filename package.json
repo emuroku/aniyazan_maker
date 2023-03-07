@@ -10,7 +10,7 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
-    "deploy": "npm run build && gh-pages -d dist -b deploy"
+    "deploy": "npm run build && gh-pages -d dist -b page"
   },
   "keywords": [],
   "author": "",
