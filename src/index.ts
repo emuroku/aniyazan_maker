@@ -1,9 +1,9 @@
 import { error } from "console"
 
 let table: HTMLTableElement
-let inputplayer: HTMLInputElement
-let inputwinnum: HTMLInputElement
-let inputusername: HTMLInputElement
+let input_player: HTMLInputElement
+let input_win_num: HTMLInputElement
+let input_username: HTMLInputElement
 
 const max_item = 9 // 登録最大人数
 
@@ -31,11 +31,12 @@ function showTable(html: string) {
     table.innerHTML = html
 }
 
+// リストにアイテムを追加
 function AddItem() {
-    const player_name = inputplayer.value
-    const wins_num = inputwinnum.valueAsNumber
+    const player_name = input_player.value
+    const wins_num = input_win_num.valueAsNumber
     try {
-        player.checkinput({ name: player_name, wins: wins_num })
+        player.checkInput({ name: player_name, wins: wins_num }) // validation
         player.add({ name: player_name, wins: wins_num })
         player.save()
         player.load()
@@ -45,13 +46,14 @@ function AddItem() {
     }
 }
 
+// リスト初期化
 function Initial() {
     player.data = []
     player.save()
     player.load()
-    inputplayer.value = ''
-    inputwinnum.value = ''
-    inputusername.value = '名無しさん'
+    input_player.value = ''
+    input_win_num.value = ''
+    input_username.value = '名無しさん'
     errorMessage.textContent = ''
     showTable(player.getHtml())
     ctx.clearRect
@@ -67,7 +69,7 @@ bgImg.onload = function () {
 
 function Draw(player_name: string, win_num: string, order: number) {
 
-    const user_name = inputusername.value
+    const user_name = input_username.value
 
     // 選手名の描画
     ctx.font = "bold 65px 'M PLUS 1'"
@@ -117,13 +119,14 @@ function Create() {
     player.createImg()
 }
 
-// Canvasを合成
+// 画像DLのため、Canvasを合成
 let createImage = function () {
     var image = new Image();
     image.src = canvas.toDataURL();
     return image;
 }
 
+// 画像のダウンロード
 function downloadCanvas() {
     // canvasのstyleにborderを追加
     canvas.style.border = "2px solid #222222";
@@ -145,13 +148,15 @@ type Player = {
 class PlayerData {
     data: Player[] = []
 
-    checkinput(add_data: Player): void {
+    // validation
+    checkInput(add_data: Player): void {
         if(add_data.name == '' || isNaN(add_data.wins)){
             console.log(add_data)
             throw new Error('正しく入力してください')
         }
     }
 
+    // アイテムの追加
     add(add_data: Player): void {
         if (this.data.length < max_item) {
             this.data.push(add_data)
@@ -162,15 +167,18 @@ class PlayerData {
 
     }
 
+    // Jsonデータに追加アイテムを保存
     save(): void {
         localStorage.setItem('player_data', JSON.stringify(this.data))
     }
 
+    // 保存されたアイテムを読み込み
     load(): void {
         const readed = JSON.parse(localStorage.getItem('player_data'))
         this.data = readed ? readed : []
     }
 
+    // リスト表示用のHTMLを取得
     getHtml(): string {
         let html = '<thead><th>投手名</th><th>勝利数</th></thead><tbody>'
         for (let item of this.data) {
@@ -183,6 +191,7 @@ class PlayerData {
         return html
     }
 
+    // 勝利数の合計値を算出
     getTotal(): string {
         let total_num = 0
         for (let item of this.data) {
@@ -191,6 +200,7 @@ class PlayerData {
         return total_num.toLocaleString()
     }
 
+    // 登録したリストを画像へ出力
     createImg(): void {
         ctx.drawImage(bgImg, 0, 0)
         for (let i = 0; i < this.data.length; i++) {
@@ -203,18 +213,18 @@ class PlayerData {
 
 const player = new PlayerData()
 
-
 window.addEventListener('load', () => {
     table = document.querySelector('#table')
-    inputplayer = document.querySelector('#player')
-    inputwinnum = document.querySelector('#wins')
-    inputusername = document.querySelector('#username')
+    input_player = document.querySelector('#player')
+    input_win_num = document.querySelector('#wins')
+    input_username = document.querySelector('#username')
     showTable(player.getHtml())
-    document.querySelector('#btn').addEventListener('click', AddItem)
-    document.querySelector('#initial').addEventListener('click', Initial)
-    document.querySelector('#create').addEventListener('click', Create)
-    document.getElementById('btn_dl').addEventListener('click', downloadCanvas)
-    player.load()
 
+    document.querySelector('#btn').addEventListener('click', AddItem) // 追加ボタン
+    document.querySelector('#initial').addEventListener('click', Initial) // やりなおすボタン
+    document.querySelector('#create').addEventListener('click', Create) // 画像を作成するボタン
+    document.getElementById('btn_dl').addEventListener('click', downloadCanvas) // 画像をダウンロードボタン
+    
+    player.load()
     showTable(player.getHtml())
 })
