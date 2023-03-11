@@ -8,12 +8,12 @@ let inputusername: HTMLInputElement
 const max_item = 9 // 登録最大人数
 
 // 描画用位置指定パラメータ
-const start_x: number = 240
-const start_y: number = 300
-const item_width: number = 420
-const item_height: number = 150
-const name_max_width: number = 160
-const win_max_width: number = 100
+const start_x: number = 240 // 1人目の描画開始位置 x
+const start_y: number = 300 // 1人目の描画開始位置 y
+const item_width: number = 420 // 1人分の描画幅 x 
+const item_height: number = 150 // 1人分の描画幅 y
+const name_max_width: number = 160 // 1人分の投手部分の描画幅 x 
+const win_max_width: number = 100 // 1人分の投手部分の描画幅 y
 
 // エラーメッセージ
 let errorMessage = document.getElementById('error_msg')
@@ -26,15 +26,12 @@ bgImg.src = 'resource/img/aniyazan_maker_template.png'
 const canvas = <HTMLCanvasElement>document.querySelector('#cv')
 const ctx = canvas.getContext('2d')
 
+// リストの表示
 function showTable(html: string) {
     table.innerHTML = html
 }
 
-function showCreatedImg() {
-
-}
-
-function Action() {
+function AddItem() {
     const player_name = inputplayer.value
     const wins_num = inputwinnum.valueAsNumber
     try {
@@ -213,7 +210,7 @@ window.addEventListener('load', () => {
     inputwinnum = document.querySelector('#wins')
     inputusername = document.querySelector('#username')
     showTable(player.getHtml())
-    document.querySelector('#btn').addEventListener('click', Action)
+    document.querySelector('#btn').addEventListener('click', AddItem)
     document.querySelector('#initial').addEventListener('click', Initial)
     document.querySelector('#create').addEventListener('click', Create)
     document.getElementById('btn_dl').addEventListener('click', downloadCanvas)
