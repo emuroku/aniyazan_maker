@@ -1,0 +1,51 @@
+.main_img {
+    margin: 0 0 40px 0;
+    border: 1px #666666 solid;
+    /* 幅が400未満のときに引き伸ばす */
+    width: 100%; 
+    max-width: 1200px;
+    text-align: center;
+}
+
+.input_field{
+    margin: 20px;
+}
+
+.input_username{
+    margin: 20px 0;
+}
+
+.input_main_info{
+    /* display: flex; */
+    margin: 20px 0;
+    /* justify-content: space-between; */
+}
+
+.add_btn{
+    text-align: center;
+}
+
+.output_img{
+    text-align: center;
+    margin: 40px 0;
+}
+
+.container{
+    margin:40px;
+
+}
+
+.copyright{
+    text-align: center;
+}
+
+footer{
+    /* text-align: center; */
+    bottom: 0;
+    /* flex: block; */
+    /* justify-content: center; */
+    /* margin-top: 100px; */
+    position: absolute;
+    /* margin: 0 auto; */
+    width: 100%;
+}
