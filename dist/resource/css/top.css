@@ -80,3 +80,18 @@
     width: 100%; 
     max-width: 400px;
 }
+
+.copyright{
+    text-align: center;
+}
+
+footer{
+    /* text-align: center; */
+    bottom: 0;
+    /* flex: block; */
+    /* justify-content: center; */
+    /* margin-top: 100px; */
+    position: absolute;
+    /* margin: 0 auto; */
+    width: 100%;
+}

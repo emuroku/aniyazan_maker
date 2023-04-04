@@ -60,7 +60,6 @@ function Initial() {
     ctx.drawImage(bgImg, 0, 0)
 }
 
-
 // 描画処理
 bgImg.onload = function () {
     ctx.drawImage(bgImg, 0, 0)
